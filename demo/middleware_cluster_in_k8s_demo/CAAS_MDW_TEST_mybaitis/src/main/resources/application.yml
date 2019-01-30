@@ -1,0 +1,71 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://10.10.124.200:33132/demo # for test (need primary here)
+#      uri: mongodb://mongodb-replicaset.v0316-testmid:27017/demo?replicaSet=rs0&readPreference=secondary&connectTimeoutMS=20000 # for deploy
+  kafka:
+    bootstrap-servers: 10.10.123.155:9092 # for test
+#    bootstrap-servers: kafka.v0316-testmid:9093 # for deploy
+    producer:
+      retries: 0
+      batch-size: 16348
+      buffer-memory: 33554432
+      #key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: consumer-tutorial
+      auto-commit-interval: 100
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      #key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      concurrency: 3
+  rabbitmq:
+    host: 10.10.124.200
+    port: 33137
+    username: guest
+    password: guest
+
+  aop:
+    proxy-target-class=false
+mysql-cluster:
+  # mysql master (for write)
+  master:
+    url: jdbc:mysql://10.10.124.199:31036/demo?useUnicode=true&amp;characterEncoding=utf8&amp;emptyStringsConvertToZero=true
+    username: root
+    password:
+    driver_class_name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    max-active: 20
+    initial-size: 1
+    min-idle: 3
+    max-wait: 600
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    poolPreparedStatements: true
+  # mysql master (for read)
+  slave:
+    url: jdbc:mysql://10.10.124.199:32036/demo?useUnicode=true&amp;characterEncoding=utf8&amp;emptyStringsConvertToZero=true
+    username: root
+    password:
+    driver_class_name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    max-active: 20
+    initial-size: 1
+    min-idle: 3
+    max-wait: 600
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    poolPreparedStatements: true
+
+
+debug: false

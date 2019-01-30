@@ -1,0 +1,52 @@
+spring:
+  data:
+    mongodb:
+#      uri: mongodb://10.10.124.200:33132/demo # for test (need primary here)
+      uri: mongodb://mongodb-replicaset.v0316-testmid:27017/demo?replicaSet=rs0&readPreference=secondary&connectTimeoutMS=20000 # for deploy
+  kafka:
+#    bootstrap-servers: 10.10.123.155:9092 # for test
+    bootstrap-servers: kafka.v0316-testmid:9093 # for deploy
+    producer:
+      retries: 0
+      batch-size: 16348
+      buffer-memory: 33554432
+      #key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: consumer-tutorial
+      auto-commit-interval: 100
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      #key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      concurrency: 3
+  rabbitmq:
+#    host: 10.10.124.200
+#    port: 33137
+    host: rabbitmq.v0316-testmid
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    druid:
+      write:
+#        url: jdbc:mysql://10.10.124.200:33135/mdw
+        url: jdbc:mysql://mysql-0.mysql.v0316-testmid:3306/mdw
+        username: mdw
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+      read:
+        url: jdbc:mysql://mysql-1.mysql.v0316-testmid:3306/mdw
+        username: mdw
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    show-sql: false
